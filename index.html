@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geoviewer</title>
+    <link rel="icon" href="Images/location_pointer_map_destination_icon.ico">
+    
+    <!-- Option: Replace @version for @latest -->
+    
+    <!-- leaflet -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet-measure@3.1.0/dist/leaflet-measure.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-measure@3.1.0/dist/leaflet-measure.css">
+
+    <!-- leaflet-full-screen -->
+    <script src="https://unpkg.com/leaflet.fullscreen@2.4.0/Control.FullScreen.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@2.4.0/Control.FullScreen.css">
+    
+    <!-- leaflet-zoom-slider -->
+    <script src="https://unpkg.com/leaflet.zoomslider@0.7.1/src/L.Control.Zoomslider.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.zoomslider@0.7.1/src/L.Control.Zoomslider.css">
+
+    <!-- leaflet-drawing -->
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@2.13.0/dist/leaflet-geoman.min.js"></script>  
+    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@2.13.0/dist/leaflet-geoman.css" />
+
+    <!-- leaflet-panel-layers -->
+    <script src="https://unpkg.com/leaflet-panel-layers@1.2.7/dist/leaflet-panel-layers.src.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-panel-layers@1.2.7/dist/leaflet-panel-layers.src.css">
+
+    <!-- leaflet-minimap -->
+    <script type="module" src="https://unpkg.com/leaflet-control-mini-map@0.4.0/dist/minimap.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-mini-map@0.4.0/dist/minimap.css">
+    
+    <!-- leaflet-geosearch -->
+    <script src="https://unpkg.com/leaflet-geosearch@3.6.1/dist/geosearch.umd.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.6.1/dist/geosearch.css">
+
+    <!-- leaflet-locate-control -->
+    <script src="https://unpkg.com/leaflet.locatecontrol@0.76.1/src/L.Control.Locate.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.1/dist/L.Control.Locate.min.css">
+
+    <!-- leaflet-bookmarks -->
+    <!-- <script src="/path/to/Leaflet.Bookmarks.min.js"></script> -->
+
+    <!-- leaflet-contextmenu -->
+    <script src="https://unpkg.com/@inelo/leaflet-contextmenu@1.6.1/dist/leaflet.contextmenu.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@inelo/leaflet-contextmenu@1.6.1/dist/leaflet.contextmenu.css">
+
+    <!-- leaflet-zoom-home -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+
+    <!-- leaflet-print -->
+    <script src="https://unpkg.com/leaflet.browser.print@2.0.2/dist/leaflet.browser.print.min.js"></script>
+
+    <!-- leaflet-providers -->
+    <script src="https://unpkg.com/leaflet-providers@1.13.0/leaflet-providers.js"></script>
+
+    <!-- leaflet-lasso -->
+    <script src="https://unpkg.com/leaflet-lasso@2.2.12/dist/leaflet-lasso.umd.min.js"></script>
+
+    <!-- esri-leaflet -->
+    <script src="https://unpkg.com/esri-leaflet@3.0.8/dist/esri-leaflet.js"
+    integrity="sha512-E0DKVahIg0p1UHR2Kf9NX7x7TUewJb30mxkxEm2qOYTVJObgsAGpEol9F6iK6oefCbkJiA4/i6fnTHzM6H1kEA=="
+    crossorigin=""></script>
+
+    <!-- esri-leaflet-vector -->
+    <script src="https://unpkg.com/esri-leaflet-vector@3.1.3/dist/esri-leaflet-vector.js"
+    integrity="sha512-2sbebld2cAnzUw4nloopGcKE7AGl7xUlCXg8amUWS47veGTKMH6tx1VsT7U9ukwXPAVzecigXK0jMtS5UcllDg=="
+    crossorigin=""></script>
+
+    <!-- esri-leaflet-legend -->
+    <script src="https://unpkg.com/esri-leaflet-legend@2.0.1/dist/esri-leaflet-legend.js"></script>
+
+    <!-- esri-leaflet-renderers -->
+    <script src="https://unpkg.com/esri-leaflet-renderers@3.0.0/dist/esri-leaflet-renderers-debug.js" crossorigin=""></script>
+
+    <script src="JS/L.Control.MapSelection.js"></script>
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <!-- leaflet-measure -->
+    <script src="JS/Leaflet_Measure/L.Control.MapMeasure.js"></script>
+    
+</head>
+<body>
+  <div id="mapdiv"></div>
+  <script type="module" src="JS/index.js"></script>
+</body>
+</html>

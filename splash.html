@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Geoviewer</title>
+        <link rel="icon" href="Images/location_pointer_map_destination_icon.ico">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript">
+            $('#splash').ready() 
+            {
+                $('#main').load('index.html');
+                setTimeout(function() {
+                    $('#main').ready(function() {
+                        $('#splash').remove();
+                        window.location.href = "index.html";
+                    });
+                }, 2000);
+            }
+        </script>
+    </head>
+    <body>
+        <div id="splash">
+            <img src="Images/site_logo.logo" alt="" style="display: block; margin-left: auto; margin-right: auto; width: 100%; max-width: 600px; height: auto; margin-top: 20%; margin-bottom: 20%;">
+        </div>
+    </body>
+</html>

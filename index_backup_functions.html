@@ -1,0 +1,176 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+
+    <script src="https://unpkg.com/esri-leaflet@^3.0.8/dist/esri-leaflet.js"
+      integrity="sha512-E0DKVahIg0p1UHR2Kf9NX7x7TUewJb30mxkxEm2qOYTVJObgsAGpEol9F6iK6oefCbkJiA4/i6fnTHzM6H1kEA=="
+      crossorigin=""></script>
+
+    <script src="https://unpkg.com/esri-leaflet-vector@3.1.3/dist/esri-leaflet-vector.js"
+      integrity="sha512-2sbebld2cAnzUw4nloopGcKE7AGl7xUlCXg8amUWS47veGTKMH6tx1VsT7U9ukwXPAVzecigXK0jMtS5UcllDg=="
+      crossorigin=""></script>
+
+    <script src="https://unpkg.com/esri-leaflet-renderers@3.0.0" crossorigin=""></script>
+    <style>
+      html,
+      body,
+      #map {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        color: #323232;
+      }
+    </style>
+    <title>Alternate GCX</title>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script>   
+    
+    var categories = [];
+
+    var map = L.map('map',{
+        center: [46.5455, -66.7362],
+        zoom: 8
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+    }).addTo(map);
+
+    var rights = L.esri.featureLayer({
+        url: "https://humpback1:6443/arcgis/rest/services/AlternativeGCX/Test/MapServer/2"
+    })
+    .addTo(map);
+
+    var utilities = L.esri
+      .featureLayer({
+          url: "https://humpback1:6443/arcgis/rest/services/AlternativeGCX/Test/MapServer/1"
+      })
+      .addTo(map);
+
+    var seafood = L.esri
+      .featureLayer({
+        url: "https://humpback1:6443/arcgis/rest/services/AlternativeGCX/Test/MapServer/0",
+        pointToLayer: function (geojson, latlng) {
+            // return L.circleMarker(latlng, geojsonMarkerOptions);
+            return L.circleMarker(latlng);
+        }
+      })
+      .addTo(map);
+
+    var featureLayers = [rights,utilities,seafood];
+
+    L.Control.QueryControl = L.Control.extend({
+        onAdd: function (map) {
+          // Array of query where clauses
+          const whereClauses = [
+            "Choose a WHERE clause...",
+            "TENURE_NUMBER = 'M00021674'",
+            "TENURE_NUMBER = 'M00021685'"
+          ];
+
+          const select = L.DomUtil.create("select", "");
+          select.setAttribute("id", "whereClauseSelect");
+          whereClauses.forEach(function (whereClause) {
+            let option = L.DomUtil.create("option");
+            option.innerHTML = whereClause;
+            select.appendChild(option);
+          });
+          return select;
+        }
+      });
+
+    L.control.queryControl = function (opts) {
+      return new L.Control.QueryControl(opts);
+    };
+
+    L.control
+      .queryControl({
+        position: "topright"
+      })
+      .addTo(map);
+
+    rights.bindPopup(function (layer) {
+      return L.Util.template("TENURE_NUMBER: {TENURE_NUMBER_ID}", layer.feature.properties);
+    });
+
+    const select = document.getElementById("whereClauseSelect");
+    select.addEventListener("change", () => {
+      if (select.value !== "") {
+        seafood.setWhere(select.value);
+        console.log(select.value)
+        seafood.query().bounds(function (error, latlngbounds) {
+          if (error) {
+            console.log('Error running "Query" operation: ' + error);
+          }
+          map.fitBounds(latlngbounds);
+        });
+      }
+    });
+
+    var legend = L.control({position: 'bottomleft'});
+    
+    legend.onAdd = function (map) {
+
+      for (var i = 0; i < featureLayers.length; i++) {
+      featureLayers[i].metadata(function(error, metadata){
+          categories.push(metadata.name);
+        });
+      }
+
+      // console.log(featureLayers[0].metadata(function(error, metadata){
+      // console.log(metadata); }));
+
+      // console.log(featureLayers[0])
+      // console.log(featureLayers[0].options['url'])
+
+      var xmlhttp = new XMLHttpRequest();
+      var url = "https://humpback1:6443/arcgis/rest/services/AlternativeGCX/Test/MapServer/2/legend?f=json";
+
+      xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+              var myArr = JSON.parse(this.responseText);
+              console.log(myArr.name);
+              categories.push(myArr.name);
+          }
+      };
+
+      xmlhttp.open("GET", url, true);
+      xmlhttp.send();
+
+      console.log(categories);
+
+      var div = L.DomUtil.create('div', 'legend');
+      labels = ['<strong>Content</strong>'], categories;
+
+        for (var i = 0; i < categories.length; i++) {
+                div.innerHTML += 
+                labels.push(
+                    '<i class="circle" style="background:' + '"></i> ' +
+                (categories[i] ? categories[i] : '+'));
+
+            }
+            div.innerHTML = labels.join('<br>');
+        return div;
+    };
+
+    legend.addTo(map);
+
+    </script>
+  </body>
+</html>

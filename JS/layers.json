@@ -1,0 +1,8 @@
+{
+	"url": "https://humpback1:6443/arcgis/rest/services/AlternativeGCX/Test/MapServer/",
+	"layers": {
+		"Seafood": 0,
+		"Utility": 1,
+		"ongrights": 2
+	}
+}
