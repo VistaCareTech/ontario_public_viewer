@@ -48,28 +48,28 @@ map.addControl(L.control.locate({
 }));
 
 //CRS Control
-var crsinfo = L.Control.extend({
+// var crsinfo = L.Control.extend({
 
-    options: {position: "bottomleft"},
-    onAdd: function(map) {    
-        var className = 'pgts-mapselection';    
-        var container = L.DomUtil.create('div', 'crsinfo');
-        var select = leaflet.DomUtil.create('select', className, container);
-        var option1 = leaflet.DomUtil.create('option', className, select);
-        var option2 = leaflet.DomUtil.create('option', className, select);
+//     options: {position: "bottomleft"},
+//     onAdd: function(map) {    
+//         var className = 'pgts-mapselection';    
+//         var container = L.DomUtil.create('div', 'crsinfo');
+//         var select = leaflet.DomUtil.create('select', className, container);
+//         var option1 = leaflet.DomUtil.create('option', className, select);
+//         var option2 = leaflet.DomUtil.create('option', className, select);
 
-        option1.innerHTML = "EPSG1";
-        option2.innerHTML = "EPSG2";
-        L.DomEvent.on( select, 'change', this.onSet, this);
-        return container;
-    },
+//         option1.innerHTML = "EPSG1";
+//         option2.innerHTML = "EPSG2";
+//         L.DomEvent.on( select, 'change', this.onSet, this);
+//         return container;
+//     },
     
-    onSet: function() {
-        console.log(map.options.crs.code);
-    }
-});
+//     onSet: function() {
+//         console.log(map.options.crs.code);
+//     }
+// });
 
-map.addControl(new crsinfo());
+// map.addControl(new crsinfo());
 
 // const currentCRS = L.Control.extend({
 //     options: {
@@ -161,7 +161,7 @@ function zoomOut (e) {
 	map.zoomOut();
 }
 
-var pending_projects = L.esri.featureLayer({
+const pending_projects = L.esri.featureLayer({
     url: "https://services3.arcgis.com/gEE42E4cRBu8xbBM/ArcGIS/rest/services/Pending_Projects_popup/FeatureServer/0",
     useCors: true,
     style: function (feature) {
@@ -183,6 +183,53 @@ var pending_projects = L.esri.featureLayer({
       }
 })
 .addTo(map);
+
+const labels = {};
+
+// pending_projects.on("createfeature", function (e) {
+//   const id = e.feature.id;
+//   const feature = pending_projects.getFeature(id);
+//   const center = feature.getLatLngs()[0][0];
+//   console.log(center)
+//   const label = L.marker(center, {
+//     icon: L.divIcon({
+//       iconSize: null,
+//       className: "label",
+//       html: "<div>" + e.feature.properties.Program_Full_Name_EN + "</div>"
+//     })
+//   }).addTo(map);
+//   labels[id] = label;
+// });
+
+// pending_projects.on("addfeature", function (e) {
+//   const label = labels[e.feature.id];
+//   if (label) {
+//     label.addTo(map);
+//   }
+// });
+
+// pending_projects.on("removefeature", function (e) {
+//   const label = labels[e.feature.id];
+//   if (label) {
+//     map.removeLayer(label);
+//   }
+// });
+
+pending_projects.bindPopup(function (layer) {
+  return L.Util.template(
+    `<p><strong>Full name English: </strong> {Program_Full_Name_EN} <br>
+        <strong>Full name French: </strong> {Program_Full_Name_FR} <br>
+        <strong>Provincial and federal contributions: </strong> {Provincial_and_Federal_Contribu} <br>
+        <strong>Project status English: </strong> {Project_Status_EN} <br>
+        <strong>Project status French: </strong> {Project_Status_FR} <br>
+        <strong>Technology English: </strong> {Technology_EN} <br>
+        <strong>Technology French: </strong> {Technology_FR} <br>
+        <strong>Internet service provider: </strong> {Internet_Service_Provider} <br>
+        <strong>Target start date: </strong> {Target_Start_Date} <br>
+        <strong>Target Completion date: </strong> {Target_Completion_Date}</p>`,
+    layer.feature.properties
+  );
+});
 
 var provincial_federal_funded = L.esri.featureLayer({
     url: "https://services3.arcgis.com/gEE42E4cRBu8xbBM/ArcGIS/rest/services/Provincial_and_Federally_Funded_Projects_popup_prod/FeatureServer/0",
@@ -207,6 +254,22 @@ var provincial_federal_funded = L.esri.featureLayer({
 })
 .addTo(map);
 
+provincial_federal_funded.bindPopup(function (layer) {
+  return L.Util.template(
+    `<p><strong>Full name English: </strong> {Program_Full_Name_EN} <br>
+        <strong>Full name French: </strong> {Program_Full_Name_FR} <br>
+        <strong>Provincial and federal contributions: </strong> {Provincial_and_Federal_Contribu} <br>
+        <strong>Project status English: </strong> {Project_Status_EN} <br>
+        <strong>Project status French: </strong> {Project_Status_FR} <br>
+        <strong>Technology English: </strong> {Technology_EN} <br>
+        <strong>Technology French: </strong> {Technology_FR} <br>
+        <strong>Internet service provider: </strong> {Internet_Service_Provider} <br>
+        <strong>Target start date: </strong> {Target_Start_Date} <br>
+        <strong>Target Completion date: </strong> {Target_Completion_Date}</p>`,
+    layer.feature.properties
+  );
+});
+
 var Provincial_funded = L.esri.featureLayer({
     url: "https://services3.arcgis.com/gEE42E4cRBu8xbBM/ArcGIS/rest/services/Provincially_Funded_Projects_popup/FeatureServer/0",
     useCors: true,
@@ -229,6 +292,22 @@ var Provincial_funded = L.esri.featureLayer({
       }
 })
 .addTo(map);
+
+Provincial_funded.bindPopup(function (layer) {
+  return L.Util.template(
+    `<p><strong>Full name English: </strong> {Program_Full_Name_EN} <br>
+        <strong>Full name French: </strong> {Program_Full_Name_FR} <br>
+        <strong>Provincial and federal contributions: </strong> {Provincial_and_Federal_Contribu} <br>
+        <strong>Project status English: </strong> {Project_Status_EN} <br>
+        <strong>Project status French: </strong> {Project_Status_FR} <br>
+        <strong>Technology English: </strong> {Technology_EN} <br>
+        <strong>Technology French: </strong> {Technology_FR} <br>
+        <strong>Internet service provider: </strong> {Internet_Service_Provider} <br>
+        <strong>Target start date: </strong> {Target_Start_Date} <br>
+        <strong>Target Completion date: </strong> {Target_Completion_Date}</p>`,
+    layer.feature.properties
+  );
+});
 
 var layersLegend = []
 
@@ -325,7 +404,7 @@ map.on('pm:create', (e) => {
   });
 
 //Print  
-var browserControl = L.control.browserPrint({printModes: ["Portrait", "Landscape", "Auto"], documentTitle:'PGTS-Viewer', title:"Print Map"}).addTo(map);
+// var browserControl = L.control.browserPrint({printModes: ["Portrait", "Landscape", "Auto"], documentTitle:'PGTS-Viewer', title:"Print Map"}).addTo(map);
 
 // Legend
 // L.esri.legendControl(seafood, { position: 'topright' }).addTo(map);
@@ -441,4 +520,3 @@ if (queryString && queryString === 'MapSelection'){
 
     selectionEventHandler(map, Sections);
 }
-
