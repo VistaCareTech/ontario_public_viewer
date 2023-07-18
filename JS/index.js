@@ -162,7 +162,7 @@ function zoomOut (e) {
 }
 
 const pending_projects = L.esri.featureLayer({
-    url: "https://services3.arcgis.com/gEE42E4cRBu8xbBM/ArcGIS/rest/services/Pending_Projects_popup/FeatureServer/0",
+    url: "https://services3.arcgis.com/gEE42E4cRBu8xbBM/ArcGIS/rest/services/Pending_Projects_View_Prod/FeatureServer/1",
     useCors: true,
     style: function (feature) {
         let c;
@@ -232,7 +232,7 @@ pending_projects.bindPopup(function (layer) {
 });
 
 var provincial_federal_funded = L.esri.featureLayer({
-    url: "https://services3.arcgis.com/gEE42E4cRBu8xbBM/ArcGIS/rest/services/Provincial_and_Federally_Funded_Projects_popup_prod/FeatureServer/0",
+    url: "https://services3.arcgis.com/gEE42E4cRBu8xbBM/ArcGIS/rest/services/Provincial_and_Federally_Funded_Projects_View_Prod/FeatureServer/1",
     useCors: true,
     style: function (feature) {
         let c;
@@ -271,7 +271,7 @@ provincial_federal_funded.bindPopup(function (layer) {
 });
 
 var Provincial_funded = L.esri.featureLayer({
-    url: "https://services3.arcgis.com/gEE42E4cRBu8xbBM/ArcGIS/rest/services/Provincially_Funded_Projects_popup/FeatureServer/0",
+    url: "https://services3.arcgis.com/gEE42E4cRBu8xbBM/ArcGIS/rest/services/Provincially_Funded_Projects_View_Prod/FeatureServer/1",
     useCors: true,
     style: function (feature) {
         let c;
